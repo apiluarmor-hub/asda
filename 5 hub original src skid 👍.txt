@@ -1405,15 +1405,15 @@ if not isMobile then
 end
 createSectionHeader(o,"CONFIG")
 o+=1
-createButtonRow(o,"ðŸ’¾ SAVE CONFIG",Color3.fromRGB(28,28,28),C.dim, function(btn)
+createButtonRow(o, SAVE CONFIG",Color3.fromRGB(28,28,28),C.dim, function(btn)
     local ok = SaveConfig()
-    btn.Text=ok and "âœ“ SAVED!" or "âœ— FAILED"
+    btn.Text=ok and "listo“ SAVED!" or "error— FAILED"
     btn.BackgroundColor3=ok and C.off or C.dangerDark
-    task.delay(2,function() btn.Text="ðŸ’¾ SAVE CONFIG"; btn.BackgroundColor3=Color3.fromRGB(28,28,28) end)
+    task.delay(2,function() btn.Text="SAVE CONFIG"; btn.BackgroundColor3=Color3.fromRGB(28,28,28) end)
     playSound("rbxassetid://6895079813",0.4,ok and 1.2 or 0.7)
 end)
 o+=1
-createButtonRow(o,"ðŸ—‘ RESET CONFIG",Color3.fromRGB(55,10,10),C.dangerDark, function(btn)
+createButtonRow(o,"O‘ RESET CONFIG",Color3.fromRGB(55,10,10),C.dangerDark, function(btn)
     for k in pairs(Enabled) do Enabled[k]=false end; Enabled.AutoDisableSpeed=true
     Values.BoostSpeed=30; Values.SpinSpeed=30; Values.StealingSpeedValue=29
     Values.STEAL_RADIUS=20; Values.STEAL_DURATION=1.3; Values.DEFAULT_GRAVITY=196.2
