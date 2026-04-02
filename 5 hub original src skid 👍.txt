@@ -18,14 +18,12 @@ local function waitForCharacter()
 end
 task.spawn(waitForCharacter)
 if not getgenv then getgenv = function() return _G end end
-
 -- ============================================================
 -- INFINITE JUMP BACKEND (integrated)
 -- ============================================================
 local infinityJumpEnabled = true
 local jumpForce = 50
 local clampFallSpeed = 80
-
 -- Fall speed clamping
 RunService.Heartbeat:Connect(function()
     if not infinityJumpEnabled then return end
@@ -36,7 +34,6 @@ RunService.Heartbeat:Connect(function()
         hrp.Velocity = Vector3.new(hrp.Velocity.X, -clampFallSpeed, hrp.Velocity.Z)
     end
 end)
-
 -- Jump override
 UserInputService.JumpRequest:Connect(function()
     if not infinityJumpEnabled then return end
@@ -47,7 +44,6 @@ UserInputService.JumpRequest:Connect(function()
         hrp.Velocity = Vector3.new(hrp.Velocity.X, jumpForce, hrp.Velocity.Z)
     end
 end)
-
 -- ============================================================
 -- STATE
 -- ============================================================
@@ -66,7 +62,7 @@ local Enabled = {
     AutoWalkEnabled = false,
     AutoRightEnabled = false,
     ScriptUserESP = true,
-    InfiniteJump = true,    -- Linked to infinityJumpEnabled
+    InfiniteJump = true, -- Linked to infinityJumpEnabled
     NoDie = false,
     Aimbot = false,
     Float = false,
@@ -84,8 +80,8 @@ local Values = {
     HOP_COOLDOWN = 0.08,
     FOV = 70,
     FloatHeight = 8,
-    JumpForce = 50,          -- For infinite jump
-    ClampFallSpeed = 80,     -- For infinite jump
+    JumpForce = 50, -- For infinite jump
+    ClampFallSpeed = 80, -- For infinite jump
 }
 local KEYBINDS = {
     SPEED = Enum.KeyCode.V,
@@ -97,9 +93,8 @@ local KEYBINDS = {
     AIMBOT = Enum.KeyCode.Unknown,
     FLOAT = Enum.KeyCode.Unknown,
     FULLAUTODUEL = Enum.KeyCode.Unknown,
-    INFJUMP = Enum.KeyCode.X,   -- Keybind for toggling infinite jump
+    INFJUMP = Enum.KeyCode.X, -- Keybind for toggling infinite jump
 }
-
 -- ============================================================
 -- CONFIG
 -- ============================================================
@@ -135,12 +130,10 @@ local function LoadConfig()
     end)
 end
 LoadConfig()
-
 -- sync infinite jump with Enabled table
 infinityJumpEnabled = Enabled.InfiniteJump
 jumpForce = Values.JumpForce
 clampFallSpeed = Values.ClampFallSpeed
-
 -- ============================================================
 -- BACKEND (existing code continues...)
 -- ============================================================
@@ -379,7 +372,6 @@ end
 local function stopSpeedBoost()
     if Connections.speed then Connections.speed:Disconnect(); Connections.speed=nil end
 end
-
 -- ============================================================
 -- FLOAT BACKEND
 -- ============================================================
@@ -450,7 +442,6 @@ local function startFloat()
             local groundY = ray and ray.Position.Y or (hrp.Position.Y - Values.FloatHeight)
             local targetY = groundY + Values.FloatHeight
             local diff = targetY - hrp.Position.Y
-
             if floatJumping then
                 if velY > 0 then
                     floatVectorForce.Force = Vector3.new(0, 0, 0)
@@ -465,7 +456,6 @@ local function startFloat()
                     end
                 end
             end
-
             local gravComp = floatMassCache * workspace.Gravity
             if math.abs(diff) < FLOAT_DEADZONE and math.abs(velY) < 0.3 then
                 floatVectorForce.Force = Vector3.new(0, gravComp, 0)
@@ -493,7 +483,6 @@ local function stopFloat()
         end
     end)
 end
-
 -- ============================================================
 local POSITION_1 = Vector3.new(-476.48,-6.28, 92.73)
 local POSITION_2 = Vector3.new(-483.12,-4.95, 94.80)
@@ -597,7 +586,6 @@ local function stopAutoRight()
     local c=Player.Character
     if c then local hum=c:FindFirstChildOfClass("Humanoid") if hum then hum:Move(Vector3.zero,false) end end
 end
-
 -- ============================================================
 -- FULL AUTO DUEL BACKEND
 -- ============================================================
@@ -738,7 +726,6 @@ end
 local function stopSpeedWhileStealing()
     if Connections.speedWhileStealing then Connections.speedWhileStealing:Disconnect(); Connections.speedWhileStealing=nil end
 end
-
 -- AUTO GRAB
 local ProgressBarFill, ProgressPercentLabel
 local isStealing = false
@@ -952,7 +939,6 @@ local function abToggle()
     if abVisualSetter then abVisualSetter(abActive) end
 end
 Player.CharacterAdded:Connect(function(nc) if not abActive then return end task.wait(0.5); _abApplyNoDie(nc); _abStart() end)
-
 -- ============================================================
 -- SPEED LABEL ABOVE CHARACTER
 -- ============================================================
@@ -989,7 +975,6 @@ RunService.Heartbeat:Connect(function()
         speedTextLabel.Text = "Speed: " .. string.format("%.1f", horizontalSpeed)
     end)
 end)
-
 -- ============================================================
 -- GUI
 -- ============================================================
@@ -1066,7 +1051,7 @@ end
 local TITLE_H = math.floor(48*GS)
 local titleTxt = Instance.new("TextLabel", main)
 titleTxt.Size=UDim2.new(1,0,0,TITLE_H); titleTxt.Position=UDim2.new(0,0,0,0)
-titleTxt.BackgroundTransparency=1; titleTxt.Text="FIVE HUB"; titleTxt.TextColor3=C.white
+titleTxt.BackgroundTransparency=1; titleTxt.Text="CeboScriptsHub V4"; titleTxt.TextColor3=C.white
 titleTxt.Font=Enum.Font.GothamBlack; titleTxt.TextSize=math.floor(24*GS)
 titleTxt.TextXAlignment=Enum.TextXAlignment.Center; titleTxt.TextYAlignment=Enum.TextYAlignment.Center
 titleTxt.ZIndex=1
@@ -1159,7 +1144,6 @@ local function createKeybindBadge(parent, keybindKey)
     end)
     return btn
 end
-
 -- ============================================================
 -- createToggle
 -- ============================================================
@@ -1297,7 +1281,6 @@ local function createButtonRow(order, txt, bgCol, strokeCol, callback)
     onTap(btn, function() callback(btn) end)
     return f, btn
 end
-
 -- ============================================================
 -- PROGRESS BAR
 -- ============================================================
@@ -1349,7 +1332,6 @@ rc(pbTrack, 4); st(pbTrack, 1.5, C.border, 0.4)
 ProgressBarFill = Instance.new("Frame", pbTrack)
 ProgressBarFill.Size=UDim2.new(0,0,1,0); ProgressBarFill.BackgroundColor3=C.white
 ProgressBarFill.BorderSizePixel=0; ProgressBarFill.ZIndex=3; rc(ProgressBarFill, 4)
-
 -- ============================================================
 -- BUILD ALL ROWS
 -- ============================================================
@@ -1460,20 +1442,18 @@ createButtonRow(o,"ðŸ—‘ RESET CONFIG",Color3.fromRGB(55,10,10),C.dangerDar
     playSound("rbxassetid://6895079813",0.5,0.8)
 end)
 o+=1
-
 -- ============================================================
 -- MINI BUTTON (menu icon)
 -- ============================================================
 local miniBtn = Instance.new("TextButton", sg)
 miniBtn.Size=UDim2.new(0,math.floor(38*GS),0,math.floor(38*GS))
 miniBtn.Position=UDim2.new(1,-(math.floor(38*GS)+12),0,12)
-miniBtn.BackgroundColor3=C.bg; miniBtn.Text="5"; miniBtn.TextColor3=C.white
+miniBtn.BackgroundColor3=C.bg; miniBtn.Text="CB"; miniBtn.TextColor3=C.white
 miniBtn.Font=Enum.Font.GothamBlack; miniBtn.TextSize=math.floor(18*GS)
 miniBtn.BorderSizePixel=0; miniBtn.Visible=false
 rc(miniBtn, math.floor(10*GS)); st(miniBtn, 3, C.white, 0)
 onTap(miniBtn, function() main.Visible=true; miniBtn.Visible=false; playSound("rbxassetid://6895079813",0.4,1) end)
 onTap(closeBtn, function() main.Visible=false; miniBtn.Visible=true; playSound("rbxassetid://6895079813",0.4,1) end)
-
 -- ============================================================
 -- MOBILE FLOATING BUTTONS
 -- ============================================================
@@ -1612,14 +1592,27 @@ if isMobile then
     local abSetOn, abSetCb = makeDraggableMobBtn(mobSG, Vector2.new(startX, startY + spacing*2), "AIMBOT")
     abVisualSetter = function(on) abSetOn(on) end
     abSetCb(function() abToggle() playSound("rbxassetid://6895079813", 0.3, abActive and 1.1 or 0.9) end)
-    local sbSetOn, sbSetCb = makeDraggableMobBtn(mobSG, Vector2.new(startX, startY + spacing*3), "STEAL BOOST")
-    local sbActive = false
+    local sbSetOn, sbSetCb = makeDraggableMobBtn(mobSG, Vector2.new(startX, startY + spacing*3), "DESYNC")
+    local desyncActive = false
+    local function resetCharacter()
+        local char = Player.Character
+        if char then
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then
+                hum.Health = 0
+            end
+        end
+    end
     sbSetCb(function()
-        sbActive = not sbActive; sbSetOn(sbActive)
-        Enabled.SpeedWhileStealing = sbActive
-        if VisualSetters.SpeedWhileStealing then VisualSetters.SpeedWhileStealing(sbActive, true) end
-        if sbActive then startSpeedWhileStealing() else stopSpeedWhileStealing() end
-        playSound("rbxassetid://6895079813", 0.3, sbActive and 1.1 or 0.9)
+        desyncActive = not desyncActive
+        sbSetOn(desyncActive)
+        if raknet and raknet.desync then
+            raknet.desync(desyncActive)
+        end
+        if desyncActive then
+            resetCharacter()
+        end
+        playSound("rbxassetid://6895079813", 0.3, desyncActive and 1.1 or 0.9)
     end)
     local flSetOn, flSetCb = makeDraggableMobBtn(mobSG, Vector2.new(startX, startY + spacing*4), "FLOAT")
     local flActive = false
@@ -1666,7 +1659,6 @@ if isMobile then
     end
     abVisualSetter = function(on) abSetOn(on) end
 end
-
 -- ============================================================
 -- APPLY LOADED CONFIG
 -- ============================================================
@@ -1702,7 +1694,6 @@ task.spawn(function()
     if Enabled.Aimbot and not abActive then abToggle() end
     infinityJumpEnabled = Enabled.InfiniteJump
 end)
-
 -- ============================================================
 -- KEYBIND DISPATCH
 -- ============================================================
@@ -1756,7 +1747,6 @@ local function dispatchKey(kc)
         if VisualSetters.InfiniteJump then VisualSetters.InfiniteJump(Enabled.InfiniteJump) end
     end
 end
-
 -- ============================================================
 -- INPUT HANDLER
 -- ============================================================
@@ -1787,7 +1777,6 @@ end)
 UserInputService.InputEnded:Connect(function(input)
     if input.KeyCode==Enum.KeyCode.Space then spaceHeld=false end
 end)
-
 -- ============================================================
 -- CHARACTER RESPAWN
 -- ============================================================
@@ -1802,5 +1791,4 @@ Player.CharacterAdded:Connect(function()
     task.wait(0.5)
     pcall(function() local cam=workspace.CurrentCamera; if cam and Values.FOV then cam.FieldOfView=Values.FOV end end)
 end)
-
 print("FIVE HUB Loaded ” Press U to toggle GUI. Infinite Jump integrated.")
